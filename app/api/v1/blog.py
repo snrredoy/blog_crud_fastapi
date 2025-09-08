@@ -10,3 +10,8 @@ router = APIRouter(prefix="/api/v1", tags=['Blogs'])
 def create_blog(blog: BlogCreate, session: Session = Depends(get_session)):
     service = BlogService(session)
     return service.create_blog_post(blog)
+
+@router.get('/all_blogs', response_model=list[BlogRead])
+def get_blogs(session: Session = Depends(get_session)):
+    service = BlogService(session)
+    return service.get_blogs_post()

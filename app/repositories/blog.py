@@ -8,3 +8,7 @@ def create_blog(session: Session, title: str, content: str) -> Blog:
     session.commit()
     session.refresh(blog)
     return blog
+
+
+def get_blogs(session: Session):
+    return session.exec(select(Blog)).all()
