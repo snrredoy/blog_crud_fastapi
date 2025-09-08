@@ -15,3 +15,11 @@ def create_blog(blog: BlogCreate, session: Session = Depends(get_session)):
 def get_blogs(session: Session = Depends(get_session)):
     service = BlogService(session)
     return service.get_blogs_post()
+
+@router.get('/get_blog/{blog_id}', response_model=BlogRead)
+def get_blog(blog_id: int, session: Session = Depends(get_session)):
+    service = BlogService(session)
+    blog = service.get_blog_post(blog_id)
+    if not blog:
+        raise HTTPException(status_code=404, detail="Blog not found.")
+    return blog

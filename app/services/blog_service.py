@@ -1,4 +1,4 @@
-from app.repositories.blog import create_blog, get_blogs
+from app.repositories.blog import create_blog, get_blogs, get_blog
 from sqlmodel import Session
 from app.schemas.blog import BlogCreate
 
@@ -12,3 +12,6 @@ class BlogService:
     
     def get_blogs_post(self):
         return get_blogs(self.session)
+    
+    def get_blog_post(self, blog_id: int):
+        return  get_blog(self.session, blog_id)

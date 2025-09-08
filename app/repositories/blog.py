@@ -12,3 +12,6 @@ def create_blog(session: Session, title: str, content: str) -> Blog:
 
 def get_blogs(session: Session):
     return session.exec(select(Blog)).all()
+
+def get_blog(session: Session, id: int):
+    return session.get(Blog, id)
