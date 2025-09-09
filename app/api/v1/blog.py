@@ -23,3 +23,12 @@ def get_blog(blog_id: int, session: Session = Depends(get_session)):
     if not blog:
         raise HTTPException(status_code=404, detail="Blog not found.")
     return blog
+
+
+@router.put('/update_blog/{blog_id}', response_model=BlogRead)
+def update_blog(blog_id: int, blog: BlogCreate, session: Session = Depends(get_session)):
+    service = BlogService(session)
+    update_blog = service.update_blog_post(blog_id, blog)
+    if not update_blog:
+        raise HTTPException(status_code=404, detail="Blog not found.")
+    return update_blog
