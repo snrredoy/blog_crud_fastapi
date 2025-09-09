@@ -26,3 +26,11 @@ def update_blog(session: Session, id: int, title: str, content: str):
         session.commit()
         session.refresh(blog)
     return blog
+
+
+def delete_blog(session: Session, id: int):
+    blog=session.get(Blog, id)
+    if blog:
+        session.delete(blog)
+        session.commit()
+    return blog

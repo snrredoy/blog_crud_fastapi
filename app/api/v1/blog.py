@@ -32,3 +32,12 @@ def update_blog(blog_id: int, blog: BlogCreate, session: Session = Depends(get_s
     if not update_blog:
         raise HTTPException(status_code=404, detail="Blog not found.")
     return update_blog
+
+
+@router.delete('/delete_blog/{blog_id}')
+def delete_blog(blog_id: int, session: Session = Depends(get_session)):
+    service = BlogService(session)
+    delete_blog = service.delete_blog_post(blog_id)
+    if not delete_blog:
+        raise HTTPException(status_code=404, detail="Blog not found.")
+    return {"details": "Blog deleted successfully."}
