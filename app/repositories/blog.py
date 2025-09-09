@@ -1,5 +1,6 @@
 from sqlmodel import Session, select
 from app.models.blog import Blog
+from typing import Optional
 
 
 def create_blog(session: Session, title: str, content: str) -> Blog:
@@ -33,4 +34,19 @@ def delete_blog(session: Session, id: int):
     if blog:
         session.delete(blog)
         session.commit()
+    return blog
+
+
+def update_blog_partial(session: Session, id: int, title: Optional[str] = None, content: Optional[str] = None):
+    blog = session.get(Blog, id)
+    if not blog:
+        return None
+
+    if title is not None:
+        blog.title = title
+    if content is not None:
+        blog.content = content
+    session.add(blog)
+    session.commit()
+    session.refresh(blog)
     return blog

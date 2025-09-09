@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlmodel import Session
-from app.schemas.blog import BlogCreate, BlogRead
+from app.schemas.blog import BlogCreate, BlogRead, BlogUpdate
 from app.services.blog_service import BlogService
 from app.db.session import get_session
 
@@ -41,3 +41,12 @@ def delete_blog(blog_id: int, session: Session = Depends(get_session)):
     if not delete_blog:
         raise HTTPException(status_code=404, detail="Blog not found.")
     return {"details": "Blog deleted successfully."}
+
+
+@router.patch('/update_blog_partial/{blog_id}', response_model=BlogRead)
+def update_blog_partial(blog_id: int, blog: BlogUpdate, session: Session = Depends(get_session)):
+    service = BlogService(session)
+    update_blog_partial = service.update_blog_partial_post(blog_id, blog)
+    if not update_blog_partial:
+        raise HTTPException(status_code=404, detail="Blog not found.")
+    return update_blog_partial

@@ -1,6 +1,6 @@
-from app.repositories.blog import create_blog, get_blogs, get_blog, update_blog, delete_blog
+from app.repositories.blog import create_blog, get_blogs, get_blog, update_blog, delete_blog, update_blog_partial
 from sqlmodel import Session
-from app.schemas.blog import BlogCreate
+from app.schemas.blog import BlogCreate, BlogUpdate
 
 
 class BlogService:
@@ -21,3 +21,6 @@ class BlogService:
     
     def delete_blog_post(self, id: int):
         return delete_blog(self.session, id)
+    
+    def update_blog_partial_post(self, id: int, blog_update: BlogUpdate):
+        return update_blog_partial(self.session, id, blog_update.title, blog_update.content)
